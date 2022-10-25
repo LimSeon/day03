@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>문자</title>
+</head>
+<body>
+    <h3>
+        input태그에 입력된 값으로 table을 생성해주세요
+    </h3>
+    이름 : <input type="text" id="name">  <br>
+    나이 : <input type="text" id="age">  <br>
+    성별 : <input type="text" id="gender">  <br>
+    <button onclick="createTable();">생성</button>
+
+    <table border="1px" id="table">
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>나이</th>
+                <th>성별</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+
+    <script>
+        function createTable(){
+            var name = document.getElementById('name').value;
+            var age = document.getElementById('age').value;
+            var gender = document.getElementById('gender').value;
+
+            var tbody = document.getElementById('tbody');
+
+            tbody.innerHTML += "<tr><td>" + name + "</td><td>" + age + "</td><td>" + gender + "</td></tr>";
+        }
+    </script>
+</body>
+</html>

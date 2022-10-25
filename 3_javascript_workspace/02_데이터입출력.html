@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>데이터입출력</title>
+
+    <style>
+        .area{
+            border: 1px solid black;
+            width: 500px;
+            height: 200px;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>자바스크립트에서의 입/출력</h1>
+
+    <pre>
+        자바스크립트 데이터 입출력 관련 객체들
+        1. window : 자바스크립트 내장객체로 브라우저 창이 하나 열릴때마다 하나씩 만들어지는 객체
+        브라우저 창 안에 존재하는 모든 요소들의 최상위 객체(자바의 extends object)
+        (즉, 모든 곳에 적용되기 때문에 생략 가능)
+        => window.alert(); => alert();
+        => console.log(); => window.console.log();
+
+        2. document : 웹문서(HTML)마다 하나씩 만들어지는 객체
+                      HTML문서에 대한 정보들을 가지고 있음
+                      document.getElementById();
+    </pre>
+
+    <h2>1. 데이터를 출력하는 기본 구문</h2>
+    <p>
+        1) window.alert('알림창에 출력할 문구'); <br>
+        2) window.console.log('콘솔창에 출력할 문구'); <br>
+        3) document.write('화면에 출력할 문구'); <br>
+        4) 선택한요소.innerHTML/innerText = '해당 요소에 출력할 문구';
+    </p>
+
+    <h3>3) document.write('화면에 출력할 문구')</h3>
+    <button onclick="documentWrite();">화면에 출력</button>
+
+    <script>
+        function documentWrite(){
+            //document.write('출력이요...?');
+            // document.write('<b>헐 맙소사</b><br><hr>안녕?');
+            // 화면에 출력할 문자열 HTML 태그가 있을 경우 해석해서 동적인 요소로 만들어줌
+            // document.write('<table border="1"><tr><td>1</td><td>2</td></tr></table>');
+
+            // 테이블 만들기
+            var table = '<table border="1">'
+                table += '<tr>'
+                table += '<td>1</td>'
+                table += '<td>2</td>'
+                table += '</tr>'
+                table += '<table>'
+
+            document.write(table);  // 덮어쓰기 개념
+        }
+    </script>
+
+    <h3>4) 선택한요소.innerHTML/innerText = '해당 요소에 출력할 내용';</h3>
+
+    <div id="area1" class="area">
+        innerHTML과 innerText
+        자바스크립트에서 어떤 요소(Element)안의 값(Content)을 가지고 온다거나 <br>
+        변경하고자 할 때 <b>innerHTML, innerText</b>라는 속성에 접근 <br>
+        => 가지고 올 때 : 변수 = 선택한요소.innerHTML/innerText; <br>
+        => 변경하고자 할 때 : 선택한요소.innerHTML/innerText = '변경할 값';
+    </div>
+
+    <button onclick="tagValue()">확인</button>
+
+    <script>
+        function tagValue(){
+            // 1. 먼저 해당 요소 객체를 가져와서 변수에 답는다.
+            var divEl = document.getElementById('area1');
+    
+            console.log(divEl);
+
+            // 2. 선택한 요소 내에 정보들을 알아내고자 한다면 속성들에 .으로 직접 접근해야함
+            var divId = divEl.id;
+            console.log(divId);
+            // id : 해당 요소의 id값
+            console.log(divEl.className);
+            // className : 해당 요소의 class 값
+            
+            console.log(divEl.innerHTML);   // HTML 태그들 포함
+            console.log(divEl.innerText);   // HTML 태그들 미포함
+
+            // content 값을 가져와버림
+            // 이번에는 변경 => 대입
+
+            divEl.innerHTML = '<b>innerHTML로 속성값을 변경함</b>';
+            divEl.innerText = '<b>innerText로 속성값을 변경함</b>';
+
+            console.dir(divEl);
+            // 해당 값의 디렉토리 구조를 보고자 할 때 사용(속성들에 대한 정보)
+
+        }
+        
+        // 실습
+        // div 클릭 시 "안녕" 이라는 문구 알림창으로 띄워주기
+        var divEl = document.getElementById('area1');
+
+        divEl.onclick = function(){
+            alert('안녕');
+        }
+        
+    </script>
+    
+<h2>2. 데이터를 입력받는 기본 구문(변수에 대입 가능)</h2>
+
+<p>
+    1) 변수 = window.confirm("질문내용"); <br>
+    2) 변수 = window.prompt("질문내용"); <br>
+    3) 변수 = 선택한요소.속성;(id, className, innerHTML, innerText, ...); <br>
+    4) 변수 = 선택한input요소.value;
+</p>
+
+<h3>1) window.confirm('질문내용')</h3>
+<p>
+    confirm 호출 시 "질문 내용"과 "확인/취소" 버튼이 존재하는 알림창 발생 <br>
+    확인 버튼 클릭 시 true값, 취소 버튼 클릭 시 false 반환
+</p>
+
+<button onclick="testConfirm();">클릭</button>
+<div id="area2" class="area"></div>
+<script>
+    function testConfirm(){
+
+        var result = confirm('졸리면 확인, 아니면 취소를 누르세요.');
+
+        console.log(result); // 확인 / 취소 결과값 확인
+
+        var divEl = document.getElementById('area2');
+
+        divEl.innerHTML = '<h2>문구테스트</h2>';
+        // 할당한 요소객체 innerHTML 속성 값 변경
+
+        divEl.innerHTML = result ? '<h2>졸려요</h2>' : '<h2>안졸려요</h2>' 
+    }
+</script>
+
+    <h3>2) window.prompt('질문내용')</h3>
+
+    <p>
+        prompt 호출 시 "질문내용"과 입력할 수 있는 "텍스트 상자"와 "확인/취소"버튼이 보여지고 알림창 발생 <br>
+        - 확인 버튼 클릭 시 텍스트 상자에 입력되어있는 값이 반환 <br>
+        - 취소 버튼 클릭 시 null 값을 반환
+    </p>
+
+    <button onclick="testPrompt();">클릭</button>
+    <div id="area3" class="area"></div>
+
+    <script>
+        //  자바스크립트 영역
+        function testPrompt(){
+            var name = window.prompt('너 이름이 뭐니 ~?');
+            var address = window.prompt('너 어디 사니??');
+
+            console.log(name);
+            console.log(address);
+            // xx에 사시는 xxx님의 방문을 환영합니다 ^^ 형태로 div요소 내부에 출력
+            var divEl = document.getElementById('area3');
+            divEl.innerHTML = '<b>' + address + '에 사시는 ' + name + '님의 방문을 환영합니다 ^^ </b>'
+        }
+    </script>
+
+    <button onclick = "testPrompt2()">숫자입력</button>
+    <ul id="ul1"></ul>
+
+    <script>
+        function testPrompt2(){
+
+            var num = window.prompt('숫자만 입력해 주세요 제발 ~~~');
+
+            var ulEl = document.getElementById('ul1');
+
+            // ulEl.innerHTML = '<li>자식</li>';
+            var str = '';
+
+            for(var i = 0; i < num ; i++){
+                str += '<li>안녕하세요</li>'
+            }
+            ulEl.innerHTML = str;
+            // 사용자가 입력한 값 만큼 li요소
+        }
+    </script>
+
+    <h3>4) 선택한 input요소.value;</h3>
+
+    아이디 : <input type="text," name="userId" id="userId"> <br>
+    비밀번호 : <input type="password" name="userPWd=" id="userPwd"> <br>
+
+    <button onclick="testInput();">클릭</button>
+
+    <script>
+        function testInput(){
+            var inputId = document.getElementById('userId');
+            var inputPwd = document.getElementById('userPwd');
+
+            // console.dir(inputId)
+
+            console.log("아이디 : " + inputId.value);
+            console.log("비밀번호 : " + inputPwd.value);
+
+            //  값 수정
+            inputId.value = '너는 이제 아이디를 쓸 수 없어!!';
+        }
+    </script>
+
+    <br><br>
+    <a href="00_index.html">인덱스로</a>
+
+</body>
+</html>
